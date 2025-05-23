@@ -29,3 +29,4 @@ or just simply by right clicking on the xsd file and then clicking Generate
 - *PAIN*: 
   - pain.008.003.02
   - pain.008.001.02
+  - pain.008.001.08
