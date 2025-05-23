@@ -17,6 +17,7 @@ import de.deloma.tools.sepa.util.BaseXmlFactory;
  * @see https://www.hettwer-beratung.de/sepa-spezialwissen/sepa-technische-anforderungen/pain-format-xml-nachrichtentyp/
  *
  * @author Azahar Hossain (c) 2022
+ * @author Marco Janc (c) 2025
  */
 public class PainParser
 {
@@ -43,13 +44,14 @@ public class PainParser
 	@SuppressWarnings("unchecked")
 	public <T> T parse(final InputStream is) throws Exception
 	{
-
 		switch (this.documentType)
 		{
 			case PAIN00800302:
 				return (T) BaseXmlFactory.parse(is, de.deloma.tools.sepa.model.pain.pain0800302.ObjectFactory.class);
 			case PAIN00800102:
 				return (T) BaseXmlFactory.parse(is, de.deloma.tools.sepa.model.pain.pain0800102.ObjectFactory.class);
+			case PAIN00800108:
+				return (T) BaseXmlFactory.parse(is, de.deloma.tools.sepa.model.pain.pain0800108.ObjectFactory.class);
 			default:
 				throw new UnsupportedOperationException("invalid type");
 		}
@@ -76,8 +78,8 @@ public class PainParser
 	 * @throws IOException
 	 * @throws PainParserException
 	 */
-	public static String createDocumentXml(final PainDocumentType type, final GroupHeaderInfo headerInfo, final List<CollectorPaymentInfoPain> paymentInfoList)
-		throws IOException, PainParserException
+	public static String createDocumentXml(final PainDocumentType type, final GroupHeaderInfo headerInfo,
+		final List<CollectorPaymentInfoPain> paymentInfoList) throws IOException, PainParserException
 	{
 		switch (type)
 		{
@@ -86,8 +88,14 @@ public class PainParser
 				return PainParser.createDocumentXml(type, document00800302);
 
 			case PAIN00800102:
-				final de.deloma.tools.sepa.model.pain.pain0800102.Document document00800102 = PainDocument00800102.createDocument(headerInfo, paymentInfoList);
+				final de.deloma.tools.sepa.model.pain.pain0800102.Document document00800102 = PainDocument00800102
+					.createDocument(headerInfo, paymentInfoList);
 				return PainParser.createDocumentXml(type, document00800102);
+
+			case PAIN00800108:
+				final de.deloma.tools.sepa.model.pain.pain0800108.Document document00800108 = PainDocument00800108
+					.createDocument(headerInfo, paymentInfoList);
+				return PainParser.createDocumentXml(type, document00800108);
 
 			default:
 				throw new UnsupportedOperationException("unknown type");
@@ -107,29 +115,13 @@ public class PainParser
 	 */
 	public static String createDocumentXml(final PainDocumentType type, final Object document) throws IOException
 	{
+		Objects.requireNonNull(type, "type must not be null");
 
-		String schemaLocation = "";
+		final String schemaLocation = type.getSchemaLocation();
 
-		@SuppressWarnings("rawtypes")
-		Class factoryClazz;
+		final Class<?> factoryClass = type.getFactoryClass();
 
-		switch (type)
-		{
-
-			case PAIN00800302:
-				schemaLocation += "urn:iso:std:iso:20022:tech:xsd:pain.008.003.02 pain.008.003.02.xsd";
-				factoryClazz = de.deloma.tools.sepa.model.pain.pain0800302.ObjectFactory.class;
-
-				return BaseXmlFactory.createXmlFile(document, schemaLocation, factoryClazz);
-			case PAIN00800102:
-				schemaLocation += "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02 pain.008.001.02.xsd";
-				factoryClazz = de.deloma.tools.sepa.model.pain.pain0800102.ObjectFactory.class;
-
-				return BaseXmlFactory.createXmlFile(document, schemaLocation, factoryClazz);
-			default:
-				throw new UnsupportedOperationException("unknown type");
-
-		}
+		return BaseXmlFactory.createXmlFile(document, schemaLocation, factoryClass);
 	}
 
 }

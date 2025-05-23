@@ -1,4 +1,4 @@
-package de.deloma.tools.sepa.test;
+package test;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import de.deloma.tools.sepa.exception.PainParserException;
 import de.deloma.tools.sepa.pain.PainDocumentType;
@@ -23,20 +22,21 @@ import de.deloma.tools.sepa.pain.wrapper.PainTransaction;
 import de.deloma.tools.sepa.pain.wrapper.SepaLocalInstrumentCode;
 import de.deloma.tools.sepa.pain.wrapper.SequenceTypeCode;
 
+/**
+ * Pain file creation test
+ *
+ * @author Azahar Hossain
+ * @author Marco Janc
+ */
 public class PainParserTest
 {
-
-	private static String filePath_003 = MockDataForTest.TEST_FOLDER + "pain008-003-02\\test_pain.008.003.02.xml";
-	private static String filePath_001 = MockDataForTest.TEST_FOLDER + "pain008-001-02\\test_pain.008.001.02.xml";
-
-	static String xsdFilePath = MockDataForTest.TEST_FOLDER + "\\xsd\\pain.008.003.02.xsd";
-	static String schemaLocation = "urn:iso:std:iso:20022:tech:xsd:pain.008.003.02 pain.008.003.02.xsd";
-	public static TimeZone TIME_ZONE_LOCALE = TimeZone.getDefault();
-	public static TimeZone TIME_ZONE_UTC = TimeZone.getTimeZone("UTC");
-
 	public static void main(final String[] args)
 	{
-		PainParserTest.testCreatePain00800302();
+		final PainDocumentType type = PainDocumentType.PAIN00800108;
+
+		final String filePath = MockDataForTest.TEST_FOLDER + "pain008\\test-" + type.getName() + ".xml";
+
+		PainParserTest.testCreatePainXml(type, filePath);
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class PainParserTest
 	 *
 	 * @throws PainParserException
 	 */
-	public static void testCreatePain00800302()
+	public static void testCreatePainXml(final PainDocumentType type, final String filePath)
 	{
 
 		// Document document = populateDocumentDataPain00800302();
@@ -54,7 +54,8 @@ public class PainParserTest
 		final Date creationDate = new Date();
 		final String msgIdSuffix = "test-msgId-";
 
-		final GroupHeaderInfo headerInfo = new GroupHeaderInfo(msgIdSuffix + new Date().toInstant().toString(), creationDate, "Initiator Name");
+		final GroupHeaderInfo headerInfo = new GroupHeaderInfo(msgIdSuffix + new Date().toInstant().toString(),
+			creationDate, "Initiator Name");
 
 		try
 		{
@@ -71,13 +72,14 @@ public class PainParserTest
 
 			final CreditorInfo creditorInfo = new CreditorInfo(creditorName, creditorIban, creditorBIC, glauebigerId);
 
-			final List<CollectorPaymentInfoPain> paymentInfoList = PainParserTest.getPayInfos(msgIdSuffix, transactions, creditorInfo);
+			final List<CollectorPaymentInfoPain> paymentInfoList = PainParserTest.getPayInfos(msgIdSuffix, transactions,
+				creditorInfo);
 
 			// cal.set(2023, 0, 16);
 
-			final String xml = PainParser.createDocumentXml(PainDocumentType.PAIN00800102, headerInfo, paymentInfoList);
+			final String xml = PainParser.createDocumentXml(type, headerInfo, paymentInfoList);
 
-			final FileOutputStream os = new FileOutputStream(new File(PainParserTest.filePath_001));
+			final FileOutputStream os = new FileOutputStream(new File(filePath));
 			os.write(xml.getBytes());
 			os.close();
 			System.out.println(xml);
@@ -90,8 +92,8 @@ public class PainParserTest
 
 	}
 
-	private static List<CollectorPaymentInfoPain> getPayInfos(final String msgIdSuffix, final List<PainTransaction> transactions,
-		final CreditorInfo creditorInfo) throws PainParserException
+	private static List<CollectorPaymentInfoPain> getPayInfos(final String msgIdSuffix,
+		final List<PainTransaction> transactions, final CreditorInfo creditorInfo) throws PainParserException
 	{
 		// CORE + FRST
 		String paymentInfoId = msgIdSuffix + "col-1-core-first";
@@ -103,16 +105,16 @@ public class PainParserTest
 		cal.set(2023, 2 - 1, 3);
 		final Date colDate = cal.getTime();
 
-		final CollectorPaymentInfoPain col1 = new CollectorPaymentInfoPain(creditorInfo, paymentInfoId, sepaLocalInstrumentCode, sequenceTypeCode, colDate,
-			transactions);
+		final CollectorPaymentInfoPain col1 = new CollectorPaymentInfoPain(creditorInfo, paymentInfoId,
+			sepaLocalInstrumentCode, sequenceTypeCode, colDate, transactions);
 
 		// CORE + RECUR
 		paymentInfoId = msgIdSuffix + "col-2-core-recur";
 		sequenceTypeCode = SequenceTypeCode.RCUR;
 
 		// still the same creditor
-		final CollectorPaymentInfoPain col2 = new CollectorPaymentInfoPain(creditorInfo, paymentInfoId, sepaLocalInstrumentCode, sequenceTypeCode, colDate,
-			transactions);
+		final CollectorPaymentInfoPain col2 = new CollectorPaymentInfoPain(creditorInfo, paymentInfoId,
+			sepaLocalInstrumentCode, sequenceTypeCode, colDate, transactions);
 
 		// B2B + FRST
 		paymentInfoId = msgIdSuffix + "col-3-b2b-first";
@@ -120,24 +122,24 @@ public class PainParserTest
 		sequenceTypeCode = SequenceTypeCode.FRST;
 
 		// still the same creditor
-		final CollectorPaymentInfoPain col3a = new CollectorPaymentInfoPain(creditorInfo, paymentInfoId, sepaLocalInstrumentCode, sequenceTypeCode, colDate,
-			transactions);
+		final CollectorPaymentInfoPain col3a = new CollectorPaymentInfoPain(creditorInfo, paymentInfoId,
+			sepaLocalInstrumentCode, sequenceTypeCode, colDate, transactions);
 
 		// B2B + FRST
 		paymentInfoId = msgIdSuffix + "col-3-b2b-recur";
 		sepaLocalInstrumentCode = SepaLocalInstrumentCode.B2B;
 		sequenceTypeCode = SequenceTypeCode.RCUR;
 
-		final CollectorPaymentInfoPain col3b = new CollectorPaymentInfoPain(creditorInfo, paymentInfoId, sepaLocalInstrumentCode, sequenceTypeCode, colDate,
-			transactions);
+		final CollectorPaymentInfoPain col3b = new CollectorPaymentInfoPain(creditorInfo, paymentInfoId,
+			sepaLocalInstrumentCode, sequenceTypeCode, colDate, transactions);
 
 		// B2B + FNAL
 		paymentInfoId = msgIdSuffix + "col-3-b2b-fnal";
 		sepaLocalInstrumentCode = SepaLocalInstrumentCode.B2B;
 		sequenceTypeCode = SequenceTypeCode.FNAL;
 
-		final CollectorPaymentInfoPain col3c = new CollectorPaymentInfoPain(creditorInfo, paymentInfoId, sepaLocalInstrumentCode, sequenceTypeCode, colDate,
-			transactions);
+		final CollectorPaymentInfoPain col3c = new CollectorPaymentInfoPain(creditorInfo, paymentInfoId,
+			sepaLocalInstrumentCode, sequenceTypeCode, colDate, transactions);
 
 		return new ArrayList<>(Arrays.asList(col1, col2, col3a, col3b, col3c));
 	}
@@ -154,7 +156,8 @@ public class PainParserTest
 		final String ultDbtrNm = "Ultimate Debtor Name";
 		final String ustrdRemInf = "Unstructured Remittance Information";
 
-		return new PainTransaction(endToEndId, amount, dbtrName, dbtrIban, dbtrBic, mandateId, dtOfSgntr, ultDbtrNm, ustrdRemInf);
+		return new PainTransaction(endToEndId, amount, dbtrName, dbtrIban, dbtrBic, mandateId, dtOfSgntr, ultDbtrNm,
+			ustrdRemInf);
 	}
 
 }
