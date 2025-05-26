@@ -1,26 +1,24 @@
 //
-// Diese Datei wurde mit der JavaTM Architecture for XML Binding(JAXB) Reference Implementation, v2.2.8-b130911.1802 generiert
-// Siehe <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a>
-// Änderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren.
-// Generiert: 2025.05.23 um 03:25:24 PM CEST
+// Diese Datei wurde mit der JavaTM Architecture for XML Binding(JAXB) Reference Implementation, v2.2.8-b130911.1802 generiert 
+// Siehe <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
+// Ã„nderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
+// Generiert: 2025.05.26 um 02:17:19 PM CEST 
 //
+
 
 package de.deloma.tools.sepa.model.pain.pain0800108;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * Java-Klasse für Document complex type.
- *
- * <p>
- * Das folgende Schemafragment gibt den erwarteten Content an, der in dieser
- * Klasse enthalten ist.
- *
+ * <p>Java-Klasse fÃ¼r Document complex type.
+ * 
+ * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
+ * 
  * <pre>
  * &lt;complexType name="Document">
  *   &lt;complexContent>
@@ -32,41 +30,40 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- *
+ * 
+ * 
  */
-@XmlRootElement(name = "Document")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Document", propOrder =
-{
-	"cstmrDrctDbtInitn"
+@XmlType(name = "Document", propOrder = {
+    "cstmrDrctDbtInitn"
 })
-public class Document
-{
+public class Document {
 
-	@XmlElement(name = "CstmrDrctDbtInitn", required = true)
-	protected CustomerDirectDebitInitiationV08 cstmrDrctDbtInitn;
+    @XmlElement(name = "CstmrDrctDbtInitn", required = true)
+    protected CustomerDirectDebitInitiationV08 cstmrDrctDbtInitn;
 
-	/**
-	 * Ruft den Wert der cstmrDrctDbtInitn-Eigenschaft ab.
-	 * 
-	 * @return possible object is {@link CustomerDirectDebitInitiationV08 }
-	 * 
-	 */
-	public CustomerDirectDebitInitiationV08 getCstmrDrctDbtInitn()
-	{
-		return this.cstmrDrctDbtInitn;
-	}
+    /**
+     * Ruft den Wert der cstmrDrctDbtInitn-Eigenschaft ab.
+     * 
+     * @return
+     *     possible object is
+     *     {@link CustomerDirectDebitInitiationV08 }
+     *     
+     */
+    public CustomerDirectDebitInitiationV08 getCstmrDrctDbtInitn() {
+        return cstmrDrctDbtInitn;
+    }
 
-	/**
-	 * Legt den Wert der cstmrDrctDbtInitn-Eigenschaft fest.
-	 * 
-	 * @param value allowed object is {@link CustomerDirectDebitInitiationV08 }
-	 * 
-	 */
-	public void setCstmrDrctDbtInitn(final CustomerDirectDebitInitiationV08 value)
-	{
-		this.cstmrDrctDbtInitn = value;
-	}
+    /**
+     * Legt den Wert der cstmrDrctDbtInitn-Eigenschaft fest.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link CustomerDirectDebitInitiationV08 }
+     *     
+     */
+    public void setCstmrDrctDbtInitn(CustomerDirectDebitInitiationV08 value) {
+        this.cstmrDrctDbtInitn = value;
+    }
 
 }
