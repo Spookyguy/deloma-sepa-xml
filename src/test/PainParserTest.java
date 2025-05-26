@@ -30,11 +30,13 @@ import de.deloma.tools.sepa.pain.wrapper.SequenceTypeCode;
  */
 public class PainParserTest
 {
+	public static String TEST_FOLDER = "H:\\Test\\bank\\";
+
 	public static void main(final String[] args)
 	{
 		final PainDocumentType type = PainDocumentType.PAIN00800108;
 
-		final String filePath = MockDataForTest.TEST_FOLDER + "pain008\\test-" + type.getName() + ".xml";
+		final String filePath = PainParserTest.TEST_FOLDER + "pain008\\test-" + type.getName() + ".xml";
 
 		PainParserTest.testCreatePainXml(type, filePath);
 	}
@@ -72,8 +74,8 @@ public class PainParserTest
 
 			final CreditorInfo creditorInfo = new CreditorInfo(creditorName, creditorIban, creditorBIC, glauebigerId);
 
-			final List<CollectorPaymentInfoPain> paymentInfoList = PainParserTest.getPayInfos(msgIdSuffix, transactions,
-				creditorInfo);
+			final List<CollectorPaymentInfoPain> paymentInfoList = PainParserTest.getPayInfos(msgIdSuffix,
+				transactions, creditorInfo);
 
 			// cal.set(2023, 0, 16);
 
