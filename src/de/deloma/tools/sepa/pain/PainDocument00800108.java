@@ -1,5 +1,6 @@
 package de.deloma.tools.sepa.pain;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,8 +55,8 @@ public class PainDocument00800108
 	 *
 	 * @throws PainParserException
 	 */
-	public static Document createDocument(final GroupHeaderInfo groupHeaderInfo, final List<CollectorPaymentInfoPain> collectorPaymentInfos)
-		throws PainParserException
+	public static Document createDocument(final GroupHeaderInfo groupHeaderInfo,
+		final List<CollectorPaymentInfoPain> collectorPaymentInfos) throws PainParserException
 	{
 		GroupHeaderInfo.validate(groupHeaderInfo);
 
@@ -65,7 +66,8 @@ public class PainDocument00800108
 			paymentInfoList.add(PainDocument00800108.createPayInstrInf(collectorPaymentInfo));
 
 		// Number of total transactions in all paymentInfos
-		final int numTxs = paymentInfoList.stream().collect(Collectors.summingInt(p -> Integer.parseInt(p.getNbOfTxs())));
+		final int numTxs = paymentInfoList.stream()
+			.collect(Collectors.summingInt(p -> Integer.parseInt(p.getNbOfTxs())));
 		if (numTxs < 0)
 			throw new PainParserException(ParserExceptionType.GENERAL, "invalid number of transactions!");
 
@@ -79,6 +81,10 @@ public class PainDocument00800108
 		grpHdr.setNbOfTxs(String.valueOf(numTxs));
 		grpHdr.setCreDtTm(groupHeaderInfo.getCreationDateTime());
 		grpHdr.setInitgPty(partyIdentification);
+
+		final BigDecimal totalAmount = collectorPaymentInfos.stream().map(pi -> pi.getTotalAmount())
+			.reduce(BigDecimal.ZERO, BigDecimal::add);
+		grpHdr.setCtrlSum(totalAmount);
 
 		final CustomerDirectDebitInitiationV08 ddIntiation = new CustomerDirectDebitInitiationV08();
 		ddIntiation.setGrpHdr(grpHdr);
@@ -99,7 +105,8 @@ public class PainDocument00800108
 	 *
 	 * @throws PainParserException
 	 */
-	private static PaymentInstruction29 createPayInstrInf(final CollectorPaymentInfoPain collectorPaymentInfo) throws PainParserException
+	private static PaymentInstruction29 createPayInstrInf(final CollectorPaymentInfoPain collectorPaymentInfo)
+		throws PainParserException
 	{
 		CollectorPaymentInfoPain.validate(collectorPaymentInfo);
 
