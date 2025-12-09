@@ -52,9 +52,6 @@
         </dependency>
 	</dependencies>
 
-
-
-
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
@@ -68,6 +65,118 @@
 					<excludes>test,test/*</excludes>
 				</configuration>
 			</plugin>
-		</plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>4.0.0</version>
+                <executions>
+                    <execution>
+                        <id>camt.052.001.02</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/resources/schema/camt.052.001.02.xsd</source>
+                            </sources>
+                            <outputDirectory>${project.build.directory}/generated-sources/jax/camt.052.001.02</outputDirectory>
+                            <packageName>de.deloma.tools.sepa.model.camt.camt5200102</packageName>
+                            <extension>true</extension>
+                            <clearOutputDir>true</clearOutputDir>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>camt.052.001.08</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/resources/schema/camt.052.001.08.xsd</source>
+                            </sources>
+                            <outputDirectory>${project.build.directory}/generated-sources/jax/camt.052.001.08</outputDirectory>
+                            <packageName>de.deloma.tools.sepa.model.camt.camt5200108</packageName>
+                            <extension>true</extension>
+                            <clearOutputDir>true</clearOutputDir>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>camt.053.001.02</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/resources/schema/camt.053.001.02.xsd</source>
+                            </sources>
+                            <outputDirectory>${project.build.directory}/generated-sources/jax/camt.053.001.02</outputDirectory>
+                            <packageName>de.deloma.tools.sepa.model.camt.camt530102</packageName>
+                            <extension>true</extension>
+                            <clearOutputDir>true</clearOutputDir>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>camt.054.001.02</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/resources/schema/camt.054.001.02.xsd</source>
+                            </sources>
+                            <outputDirectory>${project.build.directory}/generated-sources/jax/camt.054.001.02</outputDirectory>
+                            <packageName>de.deloma.tools.sepa.model.camt.camt540102</packageName>
+                            <extension>true</extension>
+                            <clearOutputDir>true</clearOutputDir>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>pain.008.001.02</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/resources/schema/pain.008.001.02.xsd</source>
+                            </sources>
+                            <outputDirectory>${project.build.directory}/generated-sources/jax/pain.008.001.02</outputDirectory>
+                            <packageName>de.deloma.tools.sepa.model.pain.pain0800102</packageName>
+                            <extension>true</extension>
+                            <clearOutputDir>true</clearOutputDir>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>pain.008.001.08</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/resources/schema/pain.008.001.08.xsd</source>
+                            </sources>
+                            <outputDirectory>${project.build.directory}/generated-sources/jax/pain.008.001.08</outputDirectory>
+                            <packageName>de.deloma.tools.sepa.model.pain.pain0800108</packageName>
+                            <extension>true</extension>
+                            <clearOutputDir>true</clearOutputDir>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>pain.008.003.02</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/resources/schema/pain.008.003.02.xsd</source>
+                            </sources>
+                            <outputDirectory>${project.build.directory}/generated-sources/jax/pain.008.003.02</outputDirectory>
+                            <packageName>de.deloma.tools.sepa.model.pain.pain0800302</packageName>
+                            <extension>true</extension>
+                            <clearOutputDir>true</clearOutputDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
 	</build>
 </project>
