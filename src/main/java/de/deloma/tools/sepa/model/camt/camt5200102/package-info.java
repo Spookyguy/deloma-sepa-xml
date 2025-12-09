@@ -5,5 +5,5 @@
 // Generated on: 2023.02.16 at 09:09:40 AM CET 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "urn:iso:std:iso:20022:tech:xsd:camt.052.001.02", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@jakarta.xml.bind.annotation.XmlSchema(namespace = "urn:iso:std:iso:20022:tech:xsd:camt.052.001.02", elementFormDefault = jakarta.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package de.deloma.tools.sepa.model.camt.camt5200102;
